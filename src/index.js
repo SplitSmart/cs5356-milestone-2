@@ -90,7 +90,7 @@ app.post('/sessionLogin', async (req, res) => {
       (sessionCookie) => {
         // Set cookie policy for session cookie.
         const options = { maxAge: expiresIn, httpOnly: true, secure: true };
-        res.cookie('session', sessionCookie, options);
+        res.cookie('__session', sessionCookie, options);
         res.end(JSON.stringify({ status: 'success' }));
         res.status(200).send();
       },
@@ -101,7 +101,7 @@ app.post('/sessionLogin', async (req, res) => {
 });
 
 app.get("/sessionLogout", (req, res) => {
-  res.clearCookie("session");
+  res.clearCookie("__session");
   res.redirect("/sign-in");
 });
 
