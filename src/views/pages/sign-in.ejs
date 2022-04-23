@@ -1,28 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <title>Sign In - SplitSmart</title>
-  <%- include('../partials/head') %>
-</head>
+  <head>
+    <title>Sign In - SplitSmart</title>
+    <%- include('../partials/head') %>
+  
+    <style>
+      .navbar-logo {
+      background: url(./../static/SplitSmart-logos_transparent.jpg) no-repeat center center;
+      background-size: cover;
+      width: 1000px
+      }
+    </style>
+    
+  </head>
+  
+  
+  <section class="hero is-fullheight  is-light">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-6-tablet is-5-desktop is-4-widescreen"> 
+  
+            <div class="navbar-brand">
+              <a class="navbar-item" href="/">
+                <a class="navbar-logo" href="/"></a>
+              </a>
+              <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
+            </div>
+  
+            <div class="field has-text-centered">
+              <h1 class="title is-3 mt-6">Sign in to your account</h1>
+              <h2 class="subtitle has-text-success is-5 mt-2 mb-5">Start your split </h2>
+            </div>
+  
+            <form id="login-form">
+              <div class="field">
+                <label for="" class="label">Email</label>
+                <div class="control">
+                  <input id="login" type="email" name="login" placeholder="e.g. abc@gmail.com" class="input" required>
+                </div>
+              </div>
+              <div class="field">
+                <label for="" class="label">Password</label>
+                <div class="control">
+                  <input type="password" name="password" placeholder="*******" class="input" required>
+                </div>
+              </div>
 
-<body>
-  <header>
-    <%- include('../partials/nav', { hideSignIn: true }) %>
-  </header>
-
-  <div class="container">
-    <form id="login-form">
-      <input type="text" name="login" placeholder="Your user name" />
-      <input type="password" name="password" id="password" />
-      <button>
-        Sign In
-      </button>
-      <div id="login-error"></div>
+  
+              <div class="field">
+                <button class="button is-success is-fullwidth">
+                  Sign In
+                </button>
+              </div> 
+              <div class="field has-text-centered">
+                Don't have an account ? <a class= "has-text-success" href="/sign-up">Sign up</a>
+              </div>
+            </form>
+  
+          </div>
+        </div>
       </div>
-    </form>
-  </div>
-</body>
+    </div>
+  </section>
+
+  
+
 <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-auth-compat.js"></script>
 

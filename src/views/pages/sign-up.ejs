@@ -4,26 +4,86 @@
 <head>
   <title>Sign Up - SplitSmart</title>
   <%- include('../partials/head') %>
+
+  <style>
+    .navbar-logo {
+    background: url(./../static/SplitSmart-logos_transparent.jpg) no-repeat center center;
+    background-size: cover;
+    width: 1000px
+    }
+  </style>
+  
 </head>
 
-<body>
-  <header>
-    <%- include('../partials/nav') %>
-  </header>
 
-  <div class="container">
-    Sign Up for a new account or <a href="/sign-in">click here to sign in with an existing account</a>
-    <form id="login-form">
-      <label>Username (Email)</label>
-      <input id="login" type="text" name="login" />
-      <label>Password</label>
-      <input type="password" name="password" />
-      <button>Sign Up</button>
-    </form>
-    <div id="login-error"></div>
-    <a href="/dashboard">Dashboard</a>
+
+<section class="hero is-fullheight is-light">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-6-tablet is-5-desktop is-4-widescreen"> 
+
+          <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+              <a class="navbar-logo" href="/"></a>
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
+
+          <div class="field has-text-centered">
+            <h1 class="title is-3 mt-6">Join our community</h1>
+            <h2 class="subtitle has-text-success is-5 mt-2 mb-5">Start your journey of a easier bill spliting with us </h2>
+          </div>
+
+          <form id="login-form">
+            <div class="field">
+              <label for="" class="label">Email</label>
+              <div class="control">
+                <input id="login" type="email" name="login" placeholder="e.g. abc@gmail.com" class="input" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="" class="label">Password</label>
+              <div class="control">
+                <input type="password" name="password" placeholder="*******" class="input" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="" class="label">Confrim Your Password</label>
+              <div class="control">
+                <input type="password" placeholder="*******" class="input" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox">
+                  I agree to the <a href="#">terms and conditions</a>
+                </label>
+              </div>
+            </div>
+            
+            <div class="field">
+              <button class="button is-success is-fullwidth">
+                Sign Up For Free
+              </button>
+            </div> 
+            <div class="field has-text-centered">
+              Already have an account ? <a class= "has-text-success" href="/sign-in">Sign in</a>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
   </div>
-</body>
+</section>
+
 
 <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-auth-compat.js"></script>
