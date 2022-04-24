@@ -4,15 +4,193 @@
 <head>
   <title>Dashboard - SplitSmart</title>
   <%- include('../partials/head') %>
+  <style>
+    .navbar-logo {
+        background: url(./../static/SplitSmart-logos_transparent.jpg) no-repeat center center;
+        background-size: cover;
+        width: 1000px
+    }
+    .vertical {
+        border-right: 1px solid #c7c7c7;
+        height: 800px;
+        right: 50%;
+    }
+    .card-table {
+        table-layout: fixed;
+        height: 400px;
+    }
+
+  </style>
 </head>
 
 <body>
+  <div class="container">
+      <div class="columns">
+
+        <!-- menu start -->
+          <div class="column is-2 vertical">
+              <aside class="menu is-hidden-mobile mt-6">
+                  <div class="navbar-brand">
+                    <a class="navbar-logo" href="/"></a>
+                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu"></a>
+                  </div>
+                  
+                  <p class="menu-label">
+                      General
+                  </p>
+                  <ul class="menu-list">
+                      <li><a href="/dashboard">Dashboard</a></li>
+                  </ul>
+
+                  <p class="menu-label">
+                      Functions
+                  </p>
+                  <ul class="menu-list">
+                    <li><a href="/friends-list">Friends List</a></li>
+                    <li><a href="/transfer-history">Transfers Hisotry</a></li>
+                  </ul>
+                  <a href="/sign-in" class="button is-success is-fullwidth mt-6 ">Log Out</a>
+
+              </aside>
+          </div>
+        <!-- menu end -->
+
+          <div class="column is-10 ml-2">
+
+              <section class="hero welcome is-small mt-3">
+                  <div class="hero-body">
+                      <div class="container">
+                          <h1 style="float:left" class="title">
+                              My Dashboard                          
+                          </h1>
+                          <div style="float:right">
+                            <i class="material-icons">person_outline</i>
+                            <%= user.email %>
+                            </div>
+                          <h2 style="clear:both;" class="subtitle has-text-success">
+                            Get summary of your transactions here.
+                          </h2>
+                      </div>
+                  </div>
+              </section>
+
+              <section class="info-tiles">
+                  <div class="tile is-ancestor">
+                    <div class="tile is-vertical is-6">
+                      <div class="tile is-parent has-text-centered">
+                          <article class="tile is-child box">
+                              <p class="title">10</p>
+                              <p class="subtitle">Friends</p>
+                          </article>
+                          <article class="tile is-child box">
+                            <p class="title">50</p>
+                            <p class="subtitle">Transactions</p>
+                        </article>
+                      </div>
+                      <div class="tile is-parent">
+                        <div class="tile is-child card events-card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    Transactions Hisotry
+                                </p>
+                            </header>
+                            <div class="card-table">
+                                <div class="content">
+                                    <table class="table is-fullwidth is-striped">
+                                      <thead>
+                                        <tr>
+                                          <td width="35%">Receiver</td>
+                                          <td width="20%">Type</td>
+                                          <td width="25%">Date</td>
+                                          <td>Amount</td>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>vilod565@gmail.com</td>
+                                          <td>Shopping</td>
+                                          <td>2022-04-24</td>
+                                          <td>$30</td>
+                                        </tr>
+                                        <tr>
+                                          <td>deepak123@gmail.com</td>
+                                          <td>Utility</td>
+                                          <td>2022-04-21</td>
+                                          <td>$20</td>
+                                        </tr>
+                                        
+                                      </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a href="/transfer-history" class="card-footer-item">View All</a>
+                            </footer>
+                        </div>
+                    </div>
+                  </div>
+
+                    <div class="tile is-parent is-vertical is-6">
+                      <div class="title is-child box">
+                          <a href="/add-friend" class="button is-success is-fullwidth ">Add Friend</a>
+                      </div>
+                      <div class="tile is-child card">
+                              <header class="card-header">
+                                  <p class="card-header-title">
+                                      Split Bill
+                                  </p>
+                              </header>
+                              <div class="card-content">
+                                  <div class="content">
+                                    <div class="field mt-3">
+                                      <label for="" class="label">Amount</label>
+                                      <div class="control">
+                                        <input type="text" name="amount" placeholder="$0" class="input" required>
+                                      </div>
+                                    </div>
+                                    <div class="field mt-3">
+                                      <label for="" class="label">Split With</label>
+                                      <div class="control">
+                                        <input type="text" name="friends_name" placeholder="Friends name" class="input" required>
+                                      </div>
+                                    </div>
+                                    <div class="field mt-3">
+                                      <label for="" class="label">Type</label>
+                                      <div class="control">
+                                        <input type="text" name="type" placeholder="What's for" class="input" required>
+                                      </div>
+                                    </div>
+                                    <div class="field mt-6">
+                                      <button class="button is-success is-fullwidth">
+                                        Send the request
+                                      </button>
+                                    </div> 
+                                  </div>
+                              </div>
+                      </div>         
+                  </div>
+                  
+                  </div>
+
+              </section>
+
+          </div>
+      </div>
+  </div>
+  <script async type="text/javascript" src="../js/bulma.js"></script>
+</body>
+
+
+
+<!-- <body>
   <header>
     <%- include('../partials/nav', { email: user.email }) %>
   </header>
 
   <div class="container">
+    
     <div class="columns is-centered">
+
       <div class="column is-4">
         <div class="field mt-6">
           <a href="/add-friend" class="button is-success is-fullwidth ">Add Friend</a>
@@ -32,9 +210,8 @@
       </div>
     </div>
   </div>
-
-</body>
-
+</body> -->
+  
 <%- include('../partials/footer') %>
 
 </html>
