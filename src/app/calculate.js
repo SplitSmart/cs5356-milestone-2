@@ -1,20 +1,28 @@
 const {request} = require('gaxios');
 
-const calculate = async (who_paid, users_sharing, amount) => {
+const calculate = async (who_paid, users_sharing, amount, purpose) => {
     try {
         const response = await request({url:'https://ruffhouse-cd734-default-rtdb.firebaseio.com/.json'});
-        users = response.data;
+        data = response.data;
+        console.log(data)
         user_count = users_sharing.length
         amt = amount/(user_count+1)
         users_sharing.forEach(u => {
-            console.log(u)
-            users[u][who_paid] += amt
-            users[who_paid][u] -= amt
+            data.users[u] = data.users[u] || {}
+            data.users[who_paid] = data.users[who_paid] || {}
+
+            data.users[u][who_paid] = data.users[u][who_paid] || 0
+            data.users[u][who_paid] += amt
+
+            data.users[who_paid][u] = data.users[who_paid][u] || 0
+            data.users[who_paid][u] -= amt
         });
-        const feedback = await request({url:'https://ruffhouse-cd734-default-rtdb.firebaseio.com/.json', method:"PUT", data:users});
+        data.history = data.history || []
+        data.history.push({"date":Date(),"who_paid":who_paid,"amount":amount,"purpose":purpose,"shared_with":users_sharing})
+        const feedback = await request({url:'https://ruffhouse-cd734-default-rtdb.firebaseio.com/.json', method:"PUT", data:data});
       } catch (error) {
         console.error(error);
       }
   };
 
-calculate(0,[1,2],500)
+calculate("alice",["bob","carol"],500,"lunch")
