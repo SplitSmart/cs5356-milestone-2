@@ -66,6 +66,14 @@ app.get("/dashboard", authMiddleware, async function (req, res) {
   res.render("pages/dashboard", { user: req.user, feed });
 });
 
+app.get("/transfer-history", function (req, res) {
+  res.render("pages/transfer-history");
+});
+
+app.get("/friends-list", function (req, res) {
+  res.render("pages/friends-list");
+});
+
   // CS5356 TODO #4
   // Get the ID token from the request body
   // Create a session cookie using the Firebase Admin SDK
