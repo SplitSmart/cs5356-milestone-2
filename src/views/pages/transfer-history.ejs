@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Transfer- SplitSmart</title>
+  <%- include('../partials/head') %>
+  <style>
+    .navbar-logo {
+        background: url(./../static/SplitSmart-logos_transparent.jpg) no-repeat center center;
+        background-size: cover;
+        width: 1000px
+    }
+    .vertical {
+        border-right: 1px solid #c7c7c7;
+        height: 800px;
+        right: 50%;
+    }
+    .card-table {
+        table-layout: fixed;
+        height: 650px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+      <div class="columns">
+
+        <!-- menu start -->
+          <div class="column is-2 vertical">
+              <aside class="menu is-hidden-mobile mt-6">
+                  <div class="navbar-brand">
+                    <a class="navbar-logo" href="/"></a>
+                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu"></a>
+                  </div>
+                  
+                  <p class="menu-label">
+                      General
+                  </p>
+                  <ul class="menu-list">
+                      <li><a href="/dashboard">Dashboard</a></li>
+                  </ul>
+
+                  <p class="menu-label">
+                      Functions
+                  </p>
+                  <ul class="menu-list">
+                      <li><a href="/friends-list">Friends List</a></li>
+                      <li><a href="/transfer-history">Transfers Hisotry</a></li>
+                  </ul>
+                  <a href="/sign-in" class="button is-success is-fullwidth mt-6 ">Log Out</a>
+
+              </aside>
+          </div>
+        <!-- menu end -->
+
+        <!-- table starts here -->
+          <div class="column is-10 ml-2">
+            <div class="card events-card mt-4">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        Transactions Hisotry
+                    </p>
+                </header>
+                <div class="card-table">
+                    <div class="content">
+                        <table class="table is-fullwidth is-striped">
+                          <thead>
+                            <tr>
+                              <td width="35%">Receiver</td>
+                              <td width="20%">Type</td>
+                              <td width="25%">Date</td>
+                              <td>Amount</td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>vilod565@gmail.com</td>
+                              <td>Shopping</td>
+                              <td>2022-04-24</td>
+                              <td>$30</td>
+                            </tr>
+                            <tr>
+                              <td>deepak123@gmail.com</td>
+                              <td>Utility</td>
+                              <td>2022-04-21</td>
+                              <td>$20</td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+          <div class="field mt-3">
+              <a href="/dashboard" class="button is-success is-fullwidth ">Go Back</a>
+          </div>        
+
+
+
+          </div>
+      </div>
+  </div>
+  <script async type="text/javascript" src="../js/bulma.js"></script>
+</body>
+
+  
+<%- include('../partials/footer') %>
+
+</html>
