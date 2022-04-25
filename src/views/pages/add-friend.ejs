@@ -7,9 +7,6 @@
   
 </head>
 
-
-
-
 <section class="hero is-fullheight has-background-success-light">
     <div class="hero-body">
       <div class="container">
@@ -20,7 +17,7 @@
               <h1 class="title is-3 mt-6">Add New Friends</h1>
             </div>
   
-            <form id="addfriend-form">
+            <form id="add-friend-form">
               <div class="field">
                 <label for="" class="label">Name</label>
                 <div class="control">
@@ -43,19 +40,81 @@
                 </div>
    
             <div class="field mt-6">
-                <a class="button is-success is-fullwidth ">Add Friend</a>
+              <button class="button is-success is-fullwidth">
+                Add Friend
+              </button>
+                <!-- <a class="button is-success is-fullwidth ">Add Friend</a> -->
             </div> 
+
+            <div id="status" class="alert .alert-success" role="alert"></div>
             <div class="field mt-6">
                 <a href="/dashboard" class="button is-dark is-fullwidth ">Go Back</a>
             </div> 
             
   
             </form>
-  
           </div>
         </div>
       </div>
     </div>
   </section>
+<script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-database-compat.js"></script>
+
+<script>
+  window.onload = () => {
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8kvL9cgcg-G2TCNnXygmGMXNdSmnN6jU",
+      authDomain: "ruffhouse-cd734.firebaseapp.com",
+      projectId: "ruffhouse-cd734",
+      storageBucket: "ruffhouse-cd734.appspot.com",
+      messagingSenderId: "364754588322",
+      appId: "1:364754588322:web:7f41055433c85ea096bdfb"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        curr_user_id = user.uid;
+      }
+    });
+
+    // app.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
+
+  // const user = firebase.auth().currentUser;
+
+  document
+      .getElementById("add-friend-form")
+      .addEventListener("submit", (event) => {
+        event.preventDefault();
+        friend_name = event.target.friend_name.value;
+        friend_email = event.target.friend_email.value;
+        console.log(curr_user_id);
+        
+        // firebase.database().ref('users/' + curr_user_id + '/friends').set({
+        //   friend_name: friend_name
+        // });
+
+        // Create a new post reference with an auto-generated id
+        var postListRef = firebase.database().ref('users/' + curr_user_id + '/friends');
+        var newPostRef = postListRef.push();
+        newPostRef.set({
+            friend_name: friend_name
+        });
+
+        // firebase.database().ref('users/' + curr_user_id + '/friends').once('value', snap=>{
+        //   if (snap.exists()) friends = snap.val();
+        //   recipe.push({friend_name:true}); // newRecipe that you want to add into.
+        //   recipeRef.set(recipe);
+        // })
+
+        document.getElementById("status").innerHTML = "Success";
+      });
+    };
+</script>
 
 </html>

@@ -65,20 +65,19 @@
                 </header>
                 <div class="card-table">
                     <div class="content">
-                        <table class="table is-fullwidth is-striped">
+                        <table id="friendtable" class="table is-fullwidth is-striped">
                             <thead>
                             <tr>
-                                <td>friends email</td>
+                                <td>Friend Names</td>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
+                            <tbody id="table-body">
+                            <!-- <tr>
                                 <td>vilod565@gmail.com</td>
                             </tr>
                             <tr>
                                 <td>deepak123@gmail.com</td>
-                            </tr>
-                            
+                            </tr> -->
                             </tbody>
                         </table>
                     </div>
@@ -93,7 +92,52 @@
           </div>
       </div>
   </div>
-  <script async type="text/javascript" src="../js/bulma.js"></script>
+  <!-- <script async type="text/javascript" src="../js/bulma.js"></script> -->
+<script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-database-compat.js"></script>
+
+<script>
+  window.onload = () => {
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8kvL9cgcg-G2TCNnXygmGMXNdSmnN6jU",
+      authDomain: "ruffhouse-cd734.firebaseapp.com",
+      projectId: "ruffhouse-cd734",
+      storageBucket: "ruffhouse-cd734.appspot.com",
+      messagingSenderId: "364754588322",
+      appId: "1:364754588322:web:7f41055433c85ea096bdfb"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        curr_user_id = user.uid;
+        const dbRef = firebase.database().ref('users/' + curr_user_id + '/friends');
+            dbRef.get().then((snapshot) => {
+                if (snapshot.exists()) {
+                    // snapshot.val();
+                    // const tableRow = document.querySelectorAll('.js-tr');
+                    var row = "";
+                    snapshot.forEach((child) => {
+                        // console.log(child.key, child.val());
+                        console.log(child.val()['friend_name']);
+                        row += '<tr><td>' + child.val()['friend_name'] + '</td><td>';
+                    });
+                    var html = document.getElementById("table-body").innerHTML + row;
+                    document.getElementById("table-body").innerHTML = html;
+                } else {
+                    console.log("No data available");
+                }
+                }).catch((error) => {
+                console.error(error);
+            });
+      }
+    });
+};
+</script>
 </body>
 
   

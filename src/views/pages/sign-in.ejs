@@ -89,7 +89,7 @@
 
     const app = firebase.initializeApp(firebaseConfig);
 
-    app.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
+    app.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
     document
       .getElementById("login-form")
