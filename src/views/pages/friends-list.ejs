@@ -65,7 +65,7 @@
                 </header>
                 <div class="card-table">
                     <div class="content">
-                        <table id="friendtable" class="table is-fullwidth is-striped">
+                        <table class="table is-fullwidth is-striped">
                             <thead>
                             <tr>
                                 <td>Friend Names</td>
@@ -124,7 +124,7 @@
                     snapshot.forEach((child) => {
                         // console.log(child.key, child.val());
                         console.log(child.val()['friend_name']);
-                        row += '<tr><td>' + child.val()['friend_name'] + '</td><td>';
+                        row += '<tr><td>' + child.val()['friend_name'] + '</td></tr>';
                     });
                     var html = document.getElementById("table-body").innerHTML + row;
                     document.getElementById("table-body").innerHTML = html;
