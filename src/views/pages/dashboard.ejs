@@ -79,11 +79,11 @@
                     <div class="tile is-vertical is-6">
                       <div class="tile is-parent has-text-centered">
                           <article class="tile is-child box">
-                              <p class="title">10</p>
+                              <p id="count-friend-body"class="title"></p>
                               <p class="subtitle">Friends</p>
                           </article>
                           <article class="tile is-child box">
-                            <p class="title">50</p>
+                            <p id="count-body" class="title"></p>
                             <p class="subtitle">Transactions</p>
                         </article>
                       </div>
@@ -99,26 +99,13 @@
                                     <table class="table is-fullwidth is-striped">
                                       <thead>
                                         <tr>
-                                          <td width="35%">Receiver</td>
-                                          <td width="20%">Type</td>
+                                          <td width="35%">Shared With</td>
+                                          <td width="20%">Purpose</td>
                                           <td width="25%">Date</td>
                                           <td>Amount</td>
                                         </tr>
                                       </thead>
-                                      <tbody>
-                                        <tr>
-                                          <td>vilod565@gmail.com</td>
-                                          <td>Shopping</td>
-                                          <td>2022-04-24</td>
-                                          <td>$30</td>
-                                        </tr>
-                                        <tr>
-                                          <td>deepak123@gmail.com</td>
-                                          <td>Utility</td>
-                                          <td>2022-04-21</td>
-                                          <td>$20</td>
-                                        </tr>
-                                        
+                                      <tbody id="table-body">                            
                                       </tbody>
                                     </table>
                                 </div>
@@ -141,31 +128,32 @@
                                   </p>
                               </header>
                               <div class="card-content">
-                                  <div class="content">
+                                  <form id="split-request-form" class="content">
                                     <div class="field mt-3">
                                       <label for="" class="label">Amount</label>
                                       <div class="control">
-                                        <input type="text" name="amount" placeholder="$0" class="input" required>
+                                        <input id="amount" type="text" name="amount" placeholder="$0" class="input" required>
                                       </div>
                                     </div>
                                     <div class="field mt-3">
                                       <label for="" class="label">Split With</label>
                                       <div class="control">
-                                        <input type="text" name="friends_name" placeholder="Friends name" class="input" required>
+                                        <input id="friends_name" type="text" name="friends_name" placeholder="Friends name" class="input" required>
                                       </div>
                                     </div>
                                     <div class="field mt-3">
-                                      <label for="" class="label">Type</label>
+                                      <label for="" class="label">Purpose</label>
                                       <div class="control">
-                                        <input type="text" name="type" placeholder="What's for" class="input" required>
+                                        <input id="purpose" type="text" name="purpose" placeholder="What's for" class="input" required>
                                       </div>
                                     </div>
                                     <div class="field mt-6">
                                       <button class="button is-success is-fullwidth">
                                         Send the request
                                       </button>
-                                    </div> 
-                                  </div>
+                                    </div>
+                                    <div id="status" class="alert .alert-success" role="alert"></div> 
+                                  </form>
                               </div>
                       </div>         
                   </div>
@@ -177,7 +165,114 @@
           </div>
       </div>
   </div>
-  <script async type="text/javascript" src="../js/bulma.js"></script>
+
+
+<script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-database-compat.js"></script>
+
+<script>
+  window.onload = () => {
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8kvL9cgcg-G2TCNnXygmGMXNdSmnN6jU",
+      authDomain: "ruffhouse-cd734.firebaseapp.com",
+      projectId: "ruffhouse-cd734",
+      storageBucket: "ruffhouse-cd734.appspot.com",
+      messagingSenderId: "364754588322",
+      appId: "1:364754588322:web:7f41055433c85ea096bdfb"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        curr_user_id = user.uid;
+        const dbRef = firebase.database().ref('users/' + curr_user_id + '/history');
+            dbRef.get().then((snapshot) => {
+                if (snapshot.exists()) {
+                    var count = 0;
+                    var row = "";
+                    console.log("data is loading")
+                    snapshot.forEach((child) => {
+                        // console.log(child.key, child.val());
+                        // console.log(child.val()['friend_name']);
+                        count +=1;
+                        row += '<tr>'+'<td>' + child.val()['sharedwith'] + '</td>'
+                          + '<td>' + child.val()['purpose'] + '</td>'
+                          + '<td>' + child.val()['date'] + '</td>'
+                          +'<td>' + '$' + child.val()['amount'] + '</td>'+'</tr>';
+                    });
+                    var count_html = document.getElementById("count-body").innerHTML + count;
+                    document.getElementById("count-body").innerHTML = count_html;
+
+                    var html = document.getElementById("table-body").innerHTML + row;
+                    document.getElementById("table-body").innerHTML = html;
+
+                    console.log("data is loaded")
+                } else {
+                    console.log("No data available");
+                }
+                }).catch((error) => {
+                console.error(error);
+            });
+        const dbRef2 = firebase.database().ref('users/' + curr_user_id + '/friends');
+            dbRef2.get().then((snapshot) => {
+                if (snapshot.exists()) {
+                    var count_friend = 0;
+                    console.log("friend data is loading")
+                    snapshot.forEach((child) => {
+                        // console.log(child.key, child.val());
+                        // console.log(child.val()['friend_name']);
+                        count_friend +=1;
+                    });
+                    var count_friend_html = document.getElementById("count-friend-body").innerHTML + count_friend;
+                    document.getElementById("count-friend-body").innerHTML = count_friend_html;
+
+                    console.log("friend data is loaded")
+                } else {
+                    console.log("No friend data available");
+                }
+                }).catch((error) => {
+                console.error(error);
+            });
+      }
+    });
+
+    // app.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
+
+  // const user = firebase.auth().currentUser;
+
+  document
+      .getElementById("split-request-form")
+      .addEventListener("submit", (event) => {
+        event.preventDefault();
+        friends_name = event.target.friends_name.value;
+        amount = event.target.amount.value;
+        purpose = event.target.purpose.value;
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+        console.log(curr_user_id);
+        
+        // Create a new post reference with an auto-generated id
+        var postListRef = firebase.database().ref('users/' + curr_user_id + '/history');
+        var newPostRef = postListRef.push();
+        newPostRef.set({
+            amount: amount,
+            sharedwith: friends_name,
+            purpose: purpose,
+            date: date
+
+        });
+
+        document.getElementById("status").innerHTML = "Success";
+        location.reload(true);
+      });
+    };
+</script>
+
 </body>
 
 

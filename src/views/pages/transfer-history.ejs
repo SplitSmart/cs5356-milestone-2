@@ -68,26 +68,19 @@
                         <table class="table is-fullwidth is-striped">
                           <thead>
                             <tr>
-                              <td width="35%">Receiver</td>
-                              <td width="20%">Type</td>
+                              <td width="35%">Shared With</td>
+                              <td width="20%">Purpose</td>
                               <td width="25%">Date</td>
                               <td>Amount</td>
                             </tr>
                           </thead>
-                          <tbody>
-                            <tr>
-                              <td>vilod565@gmail.com</td>
-                              <td>Shopping</td>
-                              <td>2022-04-24</td>
-                              <td>$30</td>
-                            </tr>
-                            <tr>
+                          <tbody id="table-body">
+                            <!-- <tr>
                               <td>deepak123@gmail.com</td>
                               <td>Utility</td>
                               <td>2022-04-21</td>
                               <td>$20</td>
-                            </tr>
-                            
+                            </tr> -->
                           </tbody>
                         </table>
                     </div>
@@ -102,7 +95,56 @@
           </div>
       </div>
   </div>
-  <script async type="text/javascript" src="../js/bulma.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-database-compat.js"></script>
+
+<script>
+  window.onload = () => {
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8kvL9cgcg-G2TCNnXygmGMXNdSmnN6jU",
+      authDomain: "ruffhouse-cd734.firebaseapp.com",
+      projectId: "ruffhouse-cd734",
+      storageBucket: "ruffhouse-cd734.appspot.com",
+      messagingSenderId: "364754588322",
+      appId: "1:364754588322:web:7f41055433c85ea096bdfb"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        curr_user_id = user.uid;
+        const dbRef = firebase.database().ref('users/' + curr_user_id + '/history');
+            dbRef.get().then((snapshot) => {
+                if (snapshot.exists()) {
+
+                    var row = "";
+                    console.log("data is loading")
+                    snapshot.forEach((child) => {
+                        // console.log(child.key, child.val());
+                        // console.log(child.val()['friend_name']);
+                        row += '<tr>'+'<td>' + child.val()['sharedwith'] + '</td>'
+                          + '<td>' + child.val()['purpose'] + '</td>'
+                          + '<td>' + child.val()['date'] + '</td>'
+                          +'<td>' + '$' + child.val()['amount'] + '</td>'+'</tr>';
+                    });
+                    var html = document.getElementById("table-body").innerHTML + row;
+                    document.getElementById("table-body").innerHTML = html;
+                    console.log("data is loaded")
+                } else {
+                    console.log("No data available");
+                }
+                }).catch((error) => {
+                console.error(error);
+            });
+      }
+    });
+};
+</script>
+
 </body>
 
   
